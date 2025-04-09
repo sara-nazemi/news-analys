@@ -1,10 +1,13 @@
 package com.example.newsanalys.models;
 
-public record NewsDto(
+public record NewsApiArticle(
         String title,
         String description,
         String url,
-        String source,
+        Source source,
         String publishedAt
 ) {
+    public record Source(String name) {
+    }
 }
+

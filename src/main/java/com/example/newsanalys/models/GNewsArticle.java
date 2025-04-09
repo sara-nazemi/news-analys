@@ -1,6 +1,6 @@
 package com.example.newsanalys.models;
 
-public record NewsDto(
+public record GNewsArticle(
         String title,
         String description,
         String url,
