@@ -4,7 +4,7 @@ public record GNewsArticle(
         String title,
         String description,
         String url,
-        String source,
+        Object source,
         String publishedAt
 ) {
 }
