@@ -1,15 +1,17 @@
 package com.example.newsanalys.models;
 
 public record NewsApiArticle(
+        Source source,
+        String author,
         String title,
         String description,
-        String content,
         String url,
-        String image,
+        String urlToImage,
         String publishedAt,
-        Source source
+        String content
 ) {
-    public record Source(String name, String url) {
+    public record Source(String id,
+                         String name) {
     }
 }
 
