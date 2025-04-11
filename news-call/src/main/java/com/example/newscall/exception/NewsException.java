@@ -1,4 +1,4 @@
-package com.example.newsanalys.exception;
+package com.example.newscall.exception;
 
 public class NewsException extends RuntimeException {
     public NewsException() {

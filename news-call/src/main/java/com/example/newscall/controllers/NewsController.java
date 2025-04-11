@@ -1,7 +1,8 @@
-package com.example.newsanalys.controllers;
+package com.example.newscall.controllers;
 
-import com.example.newsanalys.adapter.GenericApiCaller;
-import com.example.newsanalys.models.NewsApiResponse;
+
+import com.example.newscall.adapter.GenericApiCaller;
+import com.example.newscall.models.NewsApiResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.bind.annotation.GetMapping;

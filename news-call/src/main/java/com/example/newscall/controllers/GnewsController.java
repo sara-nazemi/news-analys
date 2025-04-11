@@ -1,13 +1,14 @@
-package com.example.newsanalys.controllers;
+package com.example.newscall.controllers;
 
-import com.example.newsanalys.adapter.GenericApiCaller;
-import com.example.newsanalys.models.GNewsResponse;
+import com.example.newscall.adapter.GenericApiCaller;
+import com.example.newscall.models.GNewsResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 
 @RestController
 @RequestMapping("/Gnews")

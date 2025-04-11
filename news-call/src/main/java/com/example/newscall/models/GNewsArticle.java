@@ -1,4 +1,4 @@
-package com.example.newsanalys.models;
+package com.example.newscall.models;
 
 public record GNewsArticle(
         String title,
