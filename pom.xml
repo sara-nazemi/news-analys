@@ -17,6 +17,7 @@
 
     <modules>
         <module>news-call</module>
+        <module>news-source</module>
     </modules>
 
     <name>news-analys</name>
@@ -26,13 +27,9 @@
         <java.version>17</java.version>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+    <dependencyManagement>
+
+    </dependencyManagement>
 
     <build>
         <plugins>
