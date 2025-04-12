@@ -22,6 +22,6 @@ public class SourceEntity extends BaseEntity {
     private String url;
     @Column(name = "SOURCE_NAME")
     private String name;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "NEWS_SOURCE", cascade = CascadeType.MERGE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "source", cascade = CascadeType.MERGE)
     private List<NewsSourceEntity> newsSources;
 }
