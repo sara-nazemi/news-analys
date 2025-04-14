@@ -1,9 +1,15 @@
 package com.example.newscall.models;
 
+import lombok.*;
+
 import java.util.List;
 
-public record GNewsResponse(
-        int totalArticles,
-        List<GNewsArticle> articles
-) {
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+public class GNewsResponse {
+    private int totalArticles;
+    private List<GNewsArticle> articles;
 }
