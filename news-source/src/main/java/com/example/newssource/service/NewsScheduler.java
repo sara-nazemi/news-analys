@@ -1,19 +1,20 @@
 package com.example.newssource.service;
 
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
 public class NewsScheduler {
     private final RestTemplate restTemplate;
-    private final NewsArticleServiceImpl articleService;
 
-    public NewsScheduler(RestTemplate restTemplate, NewsArticleServiceImpl articleService) {
+    public NewsScheduler(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
-        this.articleService = articleService;
     }
 
-    public void fetchAndSend(){
-
+    public <T> T getData(String url, ParameterizedTypeReference<T> response) {
+        RequestEntity<Void> request = RequestEntity.post(url).build();
+        return restTemplate.exchange(request, response).getBody();
     }
 }

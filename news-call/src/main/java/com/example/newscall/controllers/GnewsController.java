@@ -6,7 +6,9 @@ import com.example.newscall.models.GNewsResponse;
 import com.example.newscall.services.GnewsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -32,8 +34,12 @@ public class GnewsController {
 //    }
 
     @PostMapping("/postallgnews")
-    public List<GNewsArticle> postAllGNews(@RequestParam(defaultValue = "us") String country) {
-        String url = gnewsService.createUrlGnews(country);
+    public List<GNewsArticle> postAllGNews() {
+        return getNewsArticles();
+    }
+
+    private List<GNewsArticle> getNewsArticles() {
+        String url = gnewsService.createUrlGnews();
         ParameterizedTypeReference<GNewsResponse> response = gnewsService.preparedForResponseByParametrized();
         GNewsResponse gNewsResponse = apiCaller.getData(url, response);
         return gNewsResponse.getArticles();
