@@ -38,4 +38,9 @@ public class NewsArticleServiceImpl implements NewsArticleService {
         saveAll(entities);
     }
 
+//    public void insertinTable(){
+//        List<NewsArticleEntity> articles = new ArrayList<>();
+//        articles.add(new NewsArticleEntity(34L,"dsdda","sdfdsd","sdsdasda","sdada","sdsxxx","qweewe",66L ));
+//    }
+
 }
