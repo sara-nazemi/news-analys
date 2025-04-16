@@ -9,6 +9,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -34,13 +35,12 @@ public class NewsArticleServiceImpl implements NewsArticleService {
         ParameterizedTypeReference<List<NewsArticleDto>> response = new ParameterizedTypeReference<>() {
         };
         List<NewsArticleDto> dtos = newsScheduler.getData("http://localhost:8081/news-call/gnews/postallgnews", response);
-        List<NewsArticleEntity> entities = newsArticleConverter.convertEntities(dtos);
+        List<NewsArticleDto> dtosApi = newsScheduler.getData("http://localhost:8081/news-call/news/postallnewsapi", response);
+        List<NewsArticleDto> allDtos = new ArrayList<>();
+        allDtos.addAll(dtos);
+        allDtos.addAll(dtosApi);
+        List<NewsArticleEntity> entities = newsArticleConverter.convertEntities(allDtos);
         saveAll(entities);
     }
-
-//    public void insertinTable(){
-//        List<NewsArticleEntity> articles = new ArrayList<>();
-//        articles.add(new NewsArticleEntity(34L,"dsdda","sdfdsd","sdsdasda","sdada","sdsxxx","qweewe",66L ));
-//    }
 
 }
