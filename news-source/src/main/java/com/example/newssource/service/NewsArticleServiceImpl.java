@@ -32,8 +32,7 @@ public class NewsArticleServiceImpl implements NewsArticleService {
     @Scheduled(fixedRate = 10000)
     @Transactional
     public void fetchAndSend() {
-        ParameterizedTypeReference<List<NewsArticleDto>> response = new ParameterizedTypeReference<>() {
-        };
+        ParameterizedTypeReference<List<NewsArticleDto>> response = new ParameterizedTypeReference<>() {};
         List<NewsArticleDto> dtos = newsScheduler.getData("http://localhost:8081/news-call/gnews/postallgnews", response);
         List<NewsArticleDto> dtosApi = newsScheduler.getData("http://localhost:8081/news-call/news/postallnewsapi", response);
         List<NewsArticleDto> allDtos = new ArrayList<>();
