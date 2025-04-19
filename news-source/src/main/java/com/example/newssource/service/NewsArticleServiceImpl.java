@@ -25,14 +25,19 @@ public class NewsArticleServiceImpl implements NewsArticleService {
     }
 
     public void saveAll(List<NewsArticleEntity> entities) {
-
-        articleRepository.saveAll(entities);
+        List<NewsArticleEntity> uniqueEntity = entities.stream()
+                .filter(entity -> !articleRepository.existByUrl(entity.getUrl()))
+                .toList();
+        if (!uniqueEntity.isEmpty()) {
+            articleRepository.saveAll(uniqueEntity);
+        }
     }
 
     @Scheduled(fixedRate = 10000)
     @Transactional
     public void fetchAndSend() {
-        ParameterizedTypeReference<List<NewsArticleDto>> response = new ParameterizedTypeReference<>() {};
+        ParameterizedTypeReference<List<NewsArticleDto>> response = new ParameterizedTypeReference<>() {
+        };
         List<NewsArticleDto> dtos = newsScheduler.getData("http://localhost:8081/news-call/gnews/postallgnews", response);
         List<NewsArticleDto> dtosApi = newsScheduler.getData("http://localhost:8081/news-call/news/postallnewsapi", response);
         List<NewsArticleDto> allDtos = new ArrayList<>();

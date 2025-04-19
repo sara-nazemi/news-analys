@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface NewsArticleRepository extends JpaRepository<NewsArticleEntity, Long> {
 
+    boolean existByUrl(String url);
 }
