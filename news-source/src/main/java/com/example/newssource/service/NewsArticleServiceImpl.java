@@ -44,8 +44,9 @@ public class NewsArticleServiceImpl implements NewsArticleService {
 
     public void save(List<NewsArticleEntity> entities) {
         for (NewsArticleEntity entity : entities) {
-            logger.info("********************* insert entity ******************");
             articleRepository.save(entity);
+            entityManager.flush();
+            logger.info("********************* insert entity ******************" + entity.getId());
         }
     }
 
