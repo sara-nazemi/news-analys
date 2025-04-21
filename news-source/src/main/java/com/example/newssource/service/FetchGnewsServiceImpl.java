@@ -1,33 +1,41 @@
 package com.example.newssource.service;
 
+import com.example.newssource.converter.NewsArticleConverter;
 import com.example.newssource.dto.NewsArticleDto;
+import com.example.newssource.model.NewsArticleEntity;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 public class FetchGnewsServiceImpl implements FetchGNewsService {
 
-    private NewsScheduler newsScheduler;
+    private final NewsScheduler newsScheduler;
+    private final NewsServerServiceImpl newsServerService;
+    private final NewsArticleConverter articleConverter;
 
-    public FetchGnewsServiceImpl(NewsScheduler newsScheduler) {
+    public FetchGnewsServiceImpl(NewsScheduler newsScheduler, NewsServerServiceImpl newsServerService, NewsArticleConverter articleConverter) {
         this.newsScheduler = newsScheduler;
+        this.newsServerService = newsServerService;
+        this.articleConverter = articleConverter;
     }
 
     @Async
-    public CompletableFuture<List<NewsArticleDto>> fetchGNews() {
+    public void fetchGNews() {
         try {
             ParameterizedTypeReference<List<NewsArticleDto>> response = new ParameterizedTypeReference<>() {
             };
             List<NewsArticleDto> data = newsScheduler.getData("http://localhost:8081/news-call/gnews/postallgnews", response);
-            return CompletableFuture.completedFuture(data);
+            List<NewsArticleEntity> entities = articleConverter.convertEntities(data);
+            for (NewsArticleEntity entity : entities) {
+                newsServerService.seveAsync(entity);
+//            return CompletableFuture.completedFuture(data);
+            }
         } catch (Exception e) {
-            // log error
-            return CompletableFuture.completedFuture(Collections.emptyList());    // تا برنامه نپره
+            System.err.println("⚠️ GNews Fetch Error: " + e.getMessage());
+//            return CompletableFuture.completedFuture(Collections.emptyList());
         }
     }
 }

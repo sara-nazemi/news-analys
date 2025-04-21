@@ -1,32 +1,41 @@
 package com.example.newssource.service;
 
+import com.example.newssource.converter.NewsArticleConverter;
 import com.example.newssource.dto.NewsArticleDto;
+import com.example.newssource.model.NewsArticleEntity;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 public class FetchApiNewsServiceImpl implements FetchApiNewsService {
 
-    private NewsScheduler newsScheduler;
+    private final NewsScheduler newsScheduler;
+    private final NewsArticleConverter articleConverter;
+    private final NewsServerServiceImpl newsServerService;
 
-    public FetchApiNewsServiceImpl(NewsScheduler newsScheduler) {
+    public FetchApiNewsServiceImpl(NewsScheduler newsScheduler, NewsArticleConverter articleConverter, NewsServerServiceImpl newsServerService) {
         this.newsScheduler = newsScheduler;
+        this.articleConverter = articleConverter;
+        this.newsServerService = newsServerService;
     }
 
     @Async
-    public CompletableFuture<List<NewsArticleDto>> fetchApiNews() {
+    public void fetchApiNews() {
         try {
             ParameterizedTypeReference<List<NewsArticleDto>> response = new ParameterizedTypeReference<>() {
             };
             List<NewsArticleDto> data = newsScheduler.getData("http://localhost:8081/news-call/news/postallnewsapi", response);
-            return CompletableFuture.completedFuture(data);
+            List<NewsArticleEntity> entities = articleConverter.convertEntities(data);
+            for (NewsArticleEntity entity : entities) {
+                newsServerService.seveAsync(entity);
+//            return CompletableFuture.completedFuture(data);
+            }
         } catch (Exception e) {
-            return CompletableFuture.completedFuture(Collections.emptyList());
+            System.err.println("⚠️ ApiNews Fetch Error: " + e.getMessage());
+//            return CompletableFuture.completedFuture(Collections.emptyList());
         }
     }
 }
