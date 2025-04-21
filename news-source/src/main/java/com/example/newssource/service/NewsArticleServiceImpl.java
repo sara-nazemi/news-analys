@@ -50,7 +50,7 @@ public class NewsArticleServiceImpl implements NewsArticleService {
     public void save(List<NewsArticleEntity> entities) {
         for (NewsArticleEntity entity : entities) {
             articleRepository.save(entity);
-            entityManager.flush();
+//            entityManager.flush();
             logger.info("********************* insert entity ******************" + entity.getId());
         }
     }
