@@ -12,12 +12,12 @@ import java.util.List;
 @Service
 public class FetchGnewsServiceImpl implements FetchGNewsService {
 
-    private final NewsScheduler newsScheduler;
+    private final NewsSchedulerImpl newsScheduler;
     private final NewsServerServiceImpl newsServerService;
     private final NewsArticleConverter articleConverter;
 
-    public FetchGnewsServiceImpl(NewsScheduler newsScheduler, NewsServerServiceImpl newsServerService, NewsArticleConverter articleConverter) {
-        this.newsScheduler = newsScheduler;
+    public FetchGnewsServiceImpl(NewsSchedulerImpl newsSchedulerImpl, NewsServerServiceImpl newsServerService, NewsArticleConverter articleConverter) {
+        this.newsScheduler = newsSchedulerImpl;
         this.newsServerService = newsServerService;
         this.articleConverter = articleConverter;
     }

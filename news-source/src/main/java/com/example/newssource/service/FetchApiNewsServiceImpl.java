@@ -12,12 +12,12 @@ import java.util.List;
 @Service
 public class FetchApiNewsServiceImpl implements FetchApiNewsService {
 
-    private final NewsScheduler newsScheduler;
+    private final NewsSchedulerImpl newsSchedulerImpl;
     private final NewsArticleConverter articleConverter;
     private final NewsServerServiceImpl newsServerService;
 
-    public FetchApiNewsServiceImpl(NewsScheduler newsScheduler, NewsArticleConverter articleConverter, NewsServerServiceImpl newsServerService) {
-        this.newsScheduler = newsScheduler;
+    public FetchApiNewsServiceImpl(NewsSchedulerImpl newsSchedulerImpl, NewsArticleConverter articleConverter, NewsServerServiceImpl newsServerService) {
+        this.newsSchedulerImpl = newsSchedulerImpl;
         this.articleConverter = articleConverter;
         this.newsServerService = newsServerService;
     }
@@ -27,7 +27,7 @@ public class FetchApiNewsServiceImpl implements FetchApiNewsService {
         try {
             ParameterizedTypeReference<List<NewsArticleDto>> response = new ParameterizedTypeReference<>() {
             };
-            List<NewsArticleDto> data = newsScheduler.getData("http://localhost:8081/news-call/news/postallnewsapi", response);
+            List<NewsArticleDto> data = newsSchedulerImpl.getData("http://localhost:8081/news-call/news/postallnewsapi", response);
             List<NewsArticleEntity> entities = articleConverter.convertEntities(data);
             for (NewsArticleEntity entity : entities) {
                 newsServerService.seveAsync(entity);
