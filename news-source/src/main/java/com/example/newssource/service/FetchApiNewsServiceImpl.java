@@ -4,6 +4,7 @@ import com.example.newssource.converter.NewsArticleConverter;
 import com.example.newssource.dto.NewsArticleDto;
 import com.example.newssource.model.ApiType;
 import com.example.newssource.model.NewsArticleEntity;
+import com.example.newssource.repository.NewsArticleRepository;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -16,12 +17,26 @@ public class FetchApiNewsServiceImpl implements FetchApiNewsService {
     private final NewsSchedulerImpl newsSchedulerImpl;
     private final NewsArticleConverter articleConverter;
     private final NewsServerServiceImpl newsServerService;
+    private final NewsArticleRepository repository;
 
-    public FetchApiNewsServiceImpl(NewsSchedulerImpl newsSchedulerImpl, NewsArticleConverter articleConverter, NewsServerServiceImpl newsServerService) {
+    public FetchApiNewsServiceImpl(NewsSchedulerImpl newsSchedulerImpl,
+                                   NewsArticleConverter articleConverter,
+                                   NewsServerServiceImpl newsServerService,
+                                   NewsArticleRepository repository) {
         this.newsSchedulerImpl = newsSchedulerImpl;
         this.articleConverter = articleConverter;
         this.newsServerService = newsServerService;
+        this.repository = repository;
     }
+
+    public void save(List<NewsArticleEntity> entities) {
+
+        for (NewsArticleEntity entity : entities) {
+            entity.setApiType(ApiType.NEWSAPI);
+            repository.save(entity);
+        }
+    }
+
 
     @Async
     public void fetchApiNews() {
@@ -30,14 +45,9 @@ public class FetchApiNewsServiceImpl implements FetchApiNewsService {
             };
             List<NewsArticleDto> data = newsSchedulerImpl.getData("http://localhost:8081/news-call/news/postallnewsapi", response);
             List<NewsArticleEntity> entities = articleConverter.convertEntities(data);
-            for (NewsArticleEntity entity : entities) {
-                entity.setApiType(ApiType.NEWSAPI);
-                newsServerService.seveAsync(entity);
-//            return CompletableFuture.completedFuture(data);
-            }
+            save(entities);
         } catch (Exception e) {
             System.err.println("⚠️ ApiNews Fetch Error: " + e.getMessage());
-//            return CompletableFuture.completedFuture(Collections.emptyList());
         }
     }
 }

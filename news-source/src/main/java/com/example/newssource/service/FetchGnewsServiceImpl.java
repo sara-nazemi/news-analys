@@ -4,6 +4,7 @@ import com.example.newssource.converter.NewsArticleConverter;
 import com.example.newssource.dto.NewsArticleDto;
 import com.example.newssource.model.ApiType;
 import com.example.newssource.model.NewsArticleEntity;
+import com.example.newssource.repository.NewsArticleRepository;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -16,11 +17,23 @@ public class FetchGnewsServiceImpl implements FetchGNewsService {
     private final NewsSchedulerImpl newsScheduler;
     private final NewsServerServiceImpl newsServerService;
     private final NewsArticleConverter articleConverter;
+    private final NewsArticleRepository repository;
 
-    public FetchGnewsServiceImpl(NewsSchedulerImpl newsSchedulerImpl, NewsServerServiceImpl newsServerService, NewsArticleConverter articleConverter) {
+    public FetchGnewsServiceImpl(NewsSchedulerImpl newsSchedulerImpl,
+                                 NewsServerServiceImpl newsServerService,
+                                 NewsArticleConverter articleConverter,
+                                 NewsArticleRepository repository) {
         this.newsScheduler = newsSchedulerImpl;
         this.newsServerService = newsServerService;
         this.articleConverter = articleConverter;
+        this.repository = repository;
+    }
+
+    public void save(List<NewsArticleEntity> entities) {
+        for (NewsArticleEntity entity : entities) {
+            entity.setApiType(ApiType.GNEWS);
+            repository.save(entity);
+        }
     }
 
     @Async
@@ -30,14 +43,9 @@ public class FetchGnewsServiceImpl implements FetchGNewsService {
             };
             List<NewsArticleDto> data = newsScheduler.getData("http://localhost:8081/news-call/gnews/postallgnews", response);
             List<NewsArticleEntity> entities = articleConverter.convertEntities(data);
-            for (NewsArticleEntity entity : entities) {
-                entity.setApiType(ApiType.GNEWS);
-                newsServerService.seveAsync(entity);
-//            return CompletableFuture.completedFuture(data);
-            }
+            save(entities);
         } catch (Exception e) {
             System.err.println("⚠️ GNews Fetch Error: " + e.getMessage());
-//            return CompletableFuture.completedFuture(Collections.emptyList());
         }
     }
 }
