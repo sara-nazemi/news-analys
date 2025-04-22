@@ -16,16 +16,13 @@ public class FetchApiNewsServiceImpl implements FetchApiNewsService {
 
     private final NewsSchedulerImpl newsSchedulerImpl;
     private final NewsArticleConverter articleConverter;
-    private final NewsServerServiceImpl newsServerService;
     private final NewsArticleRepository repository;
 
     public FetchApiNewsServiceImpl(NewsSchedulerImpl newsSchedulerImpl,
                                    NewsArticleConverter articleConverter,
-                                   NewsServerServiceImpl newsServerService,
                                    NewsArticleRepository repository) {
         this.newsSchedulerImpl = newsSchedulerImpl;
         this.articleConverter = articleConverter;
-        this.newsServerService = newsServerService;
         this.repository = repository;
     }
 

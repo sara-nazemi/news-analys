@@ -15,16 +15,13 @@ import java.util.List;
 public class FetchGnewsServiceImpl implements FetchGNewsService {
 
     private final NewsSchedulerImpl newsScheduler;
-    private final NewsServerServiceImpl newsServerService;
     private final NewsArticleConverter articleConverter;
     private final NewsArticleRepository repository;
 
     public FetchGnewsServiceImpl(NewsSchedulerImpl newsSchedulerImpl,
-                                 NewsServerServiceImpl newsServerService,
                                  NewsArticleConverter articleConverter,
                                  NewsArticleRepository repository) {
         this.newsScheduler = newsSchedulerImpl;
-        this.newsServerService = newsServerService;
         this.articleConverter = articleConverter;
         this.repository = repository;
     }
