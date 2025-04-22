@@ -2,6 +2,7 @@ package com.example.newssource.service;
 
 import com.example.newssource.converter.NewsArticleConverter;
 import com.example.newssource.dto.NewsArticleDto;
+import com.example.newssource.model.ApiType;
 import com.example.newssource.model.NewsArticleEntity;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.scheduling.annotation.Async;
@@ -30,6 +31,7 @@ public class FetchGnewsServiceImpl implements FetchGNewsService {
             List<NewsArticleDto> data = newsScheduler.getData("http://localhost:8081/news-call/gnews/postallgnews", response);
             List<NewsArticleEntity> entities = articleConverter.convertEntities(data);
             for (NewsArticleEntity entity : entities) {
+                entity.setApiType(ApiType.GNEWS);
                 newsServerService.seveAsync(entity);
 //            return CompletableFuture.completedFuture(data);
             }
