@@ -1,4 +1,4 @@
-package com.example.newssource.service;
+package com.example.newssource.service.feed;
 
 import com.example.newssource.model.NewsArticleEntity;
 

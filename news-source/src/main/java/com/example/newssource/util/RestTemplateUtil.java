@@ -1,15 +1,15 @@
-package com.example.newssource.service;
+package com.example.newssource.util;
 
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.RequestEntity;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-@Service
-public class NewsSchedulerImpl implements NewsScheduler {
-    private final RestTemplate restTemplate;
+@Component
+public class RestTemplateUtil {
 
-    public NewsSchedulerImpl(RestTemplate restTemplate) {
+    private final RestTemplate restTemplate;
+    public RestTemplateUtil(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 

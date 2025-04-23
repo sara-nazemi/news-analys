@@ -15,7 +15,7 @@ public class LoggingAspect {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoggingAspect.class);
 
     @AfterReturning(
-            pointcut = "execution(* com.example.newssource.service.NewsSchedulerImpl.getData(..))", returning = "result")
+            pointcut = "execution(* com.example.newssource.util.RestTemplateUtil.getData(..))", returning = "result")
     public void logAfterNewsFetch(Object result) {
         if (result instanceof List<?> list) {
             LOGGER.info("✅ News fetched successfully with {} articles", list.size());

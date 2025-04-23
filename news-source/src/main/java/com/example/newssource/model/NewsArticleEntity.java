@@ -1,10 +1,9 @@
 package com.example.newssource.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.util.Objects;
 
 @Setter
 @Getter
@@ -12,6 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "NEWS_ARTICLE")
+@ToString
 public class NewsArticleEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,4 +35,18 @@ public class NewsArticleEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "NEWS_SOURCE_ID", nullable = false)
     private NewsSourceEntity newsSourceID;
+    @Column(name = "hashTitle", unique = true, nullable = false, length = 1000)
+    private String hashTitle;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof NewsArticleEntity entity)) return false;
+        return Objects.equals(title, entity.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, description);
+    }
 }

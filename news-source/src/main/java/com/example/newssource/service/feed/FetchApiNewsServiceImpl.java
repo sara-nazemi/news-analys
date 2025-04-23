@@ -1,50 +1,53 @@
-package com.example.newssource.service;
+package com.example.newssource.service.feed;
 
 import com.example.newssource.converter.NewsArticleConverter;
 import com.example.newssource.dto.NewsArticleDto;
 import com.example.newssource.model.ApiType;
 import com.example.newssource.model.NewsArticleEntity;
 import com.example.newssource.repository.NewsArticleRepository;
+import com.example.newssource.util.RestTemplateUtil;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-public class FetchApiNewsServiceImpl implements FetchApiNewsService {
+public class FetchApiNewsServiceImpl implements FetchApiNewsService, NewsFeeds {
 
-    private final NewsSchedulerImpl newsSchedulerImpl;
+    private final RestTemplateUtil restTemplateUtil;
     private final NewsArticleConverter articleConverter;
     private final NewsArticleRepository repository;
 
-    public FetchApiNewsServiceImpl(NewsSchedulerImpl newsSchedulerImpl,
+    public FetchApiNewsServiceImpl(RestTemplateUtil restTemplateUtil,
                                    NewsArticleConverter articleConverter,
                                    NewsArticleRepository repository) {
-        this.newsSchedulerImpl = newsSchedulerImpl;
+        this.restTemplateUtil = restTemplateUtil;
         this.articleConverter = articleConverter;
         this.repository = repository;
     }
 
     public void save(List<NewsArticleEntity> entities) {
-
         for (NewsArticleEntity entity : entities) {
             entity.setApiType(ApiType.NEWSAPI);
+            entity.setHashTitle(String.valueOf(entity.hashCode()));
             repository.save(entity);
         }
     }
 
+    public void fetchApiNews() {
+        ParameterizedTypeReference<List<NewsArticleDto>> response = new ParameterizedTypeReference<>() {
+        };
+        List<NewsArticleDto> data = restTemplateUtil.getData("http://localhost:8081/news-call/news/postallnewsapi", response);
+        List<NewsArticleEntity> entities = articleConverter.convertEntities(data);
+        save(entities);
+    }
 
     @Async
-    public void fetchApiNews() {
-        try {
-            ParameterizedTypeReference<List<NewsArticleDto>> response = new ParameterizedTypeReference<>() {
-            };
-            List<NewsArticleDto> data = newsSchedulerImpl.getData("http://localhost:8081/news-call/news/postallnewsapi", response);
-            List<NewsArticleEntity> entities = articleConverter.convertEntities(data);
-            save(entities);
-        } catch (Exception e) {
-            System.err.println("⚠️ ApiNews Fetch Error: " + e.getMessage());
-        }
+    @Transactional
+    @Override
+    public void storeNews() {
+        fetchApiNews();
     }
 }
