@@ -15,5 +15,7 @@ public class NewsArticleDto extends BaseDto {
     private String url;
     private String image;
     private String publishedAt;
+    private NewsSourceDto sourceDto;
     private Long newsSourceID;
+
 }
