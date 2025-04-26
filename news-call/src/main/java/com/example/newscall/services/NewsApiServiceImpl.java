@@ -23,7 +23,7 @@ public class NewsApiServiceImpl implements NewsApiService {
     }
 
     public List<NewsApiArticle> getNewsApiArticles() {
-        String formattedDate = createRangeDate();
+//        String formattedDate = createRangeDate();
         String url = "https://newsapi.org/v2/top-headlines?country=" + "us" + "&category=business" +
                 "&apiKey=" + newsApiKey;
         ParameterizedTypeReference<NewsApiResponse> response = new ParameterizedTypeReference<>() {
