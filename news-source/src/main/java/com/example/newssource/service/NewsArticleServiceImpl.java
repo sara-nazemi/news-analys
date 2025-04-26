@@ -21,4 +21,5 @@ public class NewsArticleServiceImpl implements NewsArticleService {
             newsFeed.storeNews();
         }
     }
+
 }

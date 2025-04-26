@@ -5,6 +5,7 @@ import com.example.newssource.dto.NewsArticleDto;
 import com.example.newssource.model.ApiType;
 import com.example.newssource.model.NewsArticleEntity;
 import com.example.newssource.repository.NewsArticleRepository;
+import com.example.newssource.service.NewsKafkaProducerService;
 import com.example.newssource.util.RestTemplateUtil;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.scheduling.annotation.Async;
@@ -19,13 +20,15 @@ public class FetchApiNewsServiceImpl implements FetchApiNewsService, NewsFeeds {
     private final RestTemplateUtil restTemplateUtil;
     private final NewsArticleConverter articleConverter;
     private final NewsArticleRepository repository;
+    private final NewsKafkaProducerService newsFeed;
 
     public FetchApiNewsServiceImpl(RestTemplateUtil restTemplateUtil,
                                    NewsArticleConverter articleConverter,
-                                   NewsArticleRepository repository) {
+                                   NewsArticleRepository repository, NewsKafkaProducerService newsFeed) {
         this.restTemplateUtil = restTemplateUtil;
         this.articleConverter = articleConverter;
         this.repository = repository;
+        this.newsFeed = newsFeed;
     }
 
     public void save(List<NewsArticleEntity> entities) {
@@ -40,6 +43,7 @@ public class FetchApiNewsServiceImpl implements FetchApiNewsService, NewsFeeds {
         ParameterizedTypeReference<List<NewsArticleDto>> response = new ParameterizedTypeReference<>() {
         };
         List<NewsArticleDto> data = restTemplateUtil.getData("http://localhost:8081/news-call/news/postallnewsapi", response);
+        newsFeed.sendInBatches(data);
         List<NewsArticleEntity> entities = articleConverter.convertEntities(data);
         save(entities);
     }
