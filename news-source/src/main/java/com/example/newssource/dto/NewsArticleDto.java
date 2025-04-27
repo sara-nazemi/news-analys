@@ -7,15 +7,13 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+//@JsonIgnoreProperties(ignoreUnknown = true)
 public class NewsArticleDto extends BaseDto {
-    private Long id;
     private String title;
     private String description;
     private String content;
     private String url;
     private String image;
     private String publishedAt;
-    private NewsSourceDto sourceDto;
-    private Long newsSourceID;
-
+    private NewsSourceDto source;
 }

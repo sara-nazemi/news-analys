@@ -39,11 +39,12 @@ public class FetchApiNewsServiceImpl implements FetchApiNewsService, NewsFeeds {
         }
     }
 
+    // json -> dto (restTemplate- jackson) -> entity (mapstruct)
     public void fetchApiNews() {
         ParameterizedTypeReference<List<NewsArticleDto>> response = new ParameterizedTypeReference<>() {
         };
         List<NewsArticleDto> data = restTemplateUtil.getData("http://localhost:8081/news-call/news/postallnewsapi", response);
-        newsFeed.sendInBatches(data);
+        //newsFeed.sendInBatches(data);
         List<NewsArticleEntity> entities = articleConverter.convertEntities(data);
         save(entities);
     }

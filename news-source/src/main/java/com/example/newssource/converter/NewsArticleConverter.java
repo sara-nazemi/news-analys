@@ -7,10 +7,10 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface NewsArticleConverter extends BaseConverter<NewsArticleEntity, NewsArticleDto> {
-    @Mapping(source = "newsSourceID", target = "newsSourceID.id")
+    @Mapping(source = "source.name", target = "newsSourceID.name")
     NewsArticleEntity convertEntity(NewsArticleDto d);
 
-    @Mapping(source = "newsSourceID.id", target = "newsSourceID")
+    @Mapping(target = "source.name", source = "newsSourceID.name")
     NewsArticleDto convertDto(NewsArticleEntity d);
 
 }

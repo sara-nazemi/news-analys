@@ -8,7 +8,5 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class NewsSourceDto {
-    private Long id;
-    private String url;
     private String name;
 }

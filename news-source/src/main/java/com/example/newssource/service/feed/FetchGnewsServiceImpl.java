@@ -9,12 +9,11 @@ import com.example.newssource.service.NewsKafkaProducerService;
 import com.example.newssource.util.RestTemplateUtil;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service
+//@Service
 public class FetchGnewsServiceImpl implements FetchGNewsService, NewsFeeds {
 
     private final RestTemplateUtil newsScheduler;
