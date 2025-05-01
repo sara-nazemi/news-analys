@@ -2,10 +2,14 @@ package com.example.newssource.service;
 
 import com.example.newssource.service.feed.NewsFeeds;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 public class NewsArticleServiceImplTest {
 
@@ -20,5 +24,13 @@ public class NewsArticleServiceImplTest {
         List<NewsFeeds> feeds = Arrays.asList(feed1, feed2);
 
         service = new NewsArticleServiceImpl(feeds);
+    }
+
+    @Test
+    void testFetchAndSend_CallsStoreNewsOnAllFeeds() {
+        service.fetchAndSend();
+
+        verify(feed1, times(1)).storeNews();
+        verify(feed2, times(1)).storeNews();
     }
 }
