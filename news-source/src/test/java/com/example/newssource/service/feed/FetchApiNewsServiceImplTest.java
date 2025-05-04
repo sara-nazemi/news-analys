@@ -63,4 +63,12 @@ public class FetchApiNewsServiceImplTest {
             assertNotNull(entity.getHashTitle());
         }
     }
+
+    @Test
+    void testStoreNews_DelegatesToFetchApiNews() {
+        FetchApiNewsServiceImpl spyService = spy(service);
+        doNothing().when(spyService).fetchApiNews();
+        spyService.storeNews();
+        verify(spyService, times(1)).fetchApiNews();
+    }
 }
