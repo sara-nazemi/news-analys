@@ -67,4 +67,12 @@ public class FetchGnewsServiceImplTest {
             assertNotNull(entity.getHashTitle());
         }
     }
+
+    @Test
+    void testStoreNews_DelegatesToFetchGNews() {
+        FetchGnewsServiceImpl spyService = spy(service);
+        doNothing().when(spyService).fetchGNews();
+        spyService.storeNews();
+        verify(spyService, times(1)).fetchGNews();
+    }
 }
