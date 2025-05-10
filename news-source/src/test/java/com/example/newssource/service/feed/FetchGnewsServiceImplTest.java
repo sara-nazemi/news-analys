@@ -36,7 +36,7 @@ public class FetchGnewsServiceImplTest {
         articleConverter = mock(NewsArticleConverter.class);
         repository = mock(NewsArticleRepository.class);
         newsFeed = mock(NewsKafkaProducerService.class);
-        //create virtual instance but with mock fields
+        //create actual instance but with mock fields
         service = new FetchGnewsServiceImpl(restTemplateUtil, articleConverter, repository, newsFeed);
 
     }
@@ -58,6 +58,7 @@ public class FetchGnewsServiceImplTest {
         List<NewsArticleEntity> entityList = List.of(e1, e2);
 
         when(articleConverter.convertEntities(dtoList)).thenReturn(entityList);
+        //main method
         service.fetchGNews();
         verify(repository, times(2)).save(any(NewsArticleEntity.class));
         ArgumentCaptor<NewsArticleEntity> captor = ArgumentCaptor.forClass(NewsArticleEntity.class);
