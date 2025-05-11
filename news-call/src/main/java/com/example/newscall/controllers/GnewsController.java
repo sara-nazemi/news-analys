@@ -18,6 +18,14 @@ public class GnewsController {
         this.gnewsService = gnewsService;
     }
 
+
+    @PostMapping("/postallgnews")
+    public List<GNewsArticle> postAllGNews() {
+        return gnewsService.getNewsArticles();
+    }
+
+}
+
 //    @GetMapping("/gnews")
 //    public GNewsResponse getAllGNews(
 //            @RequestParam(defaultValue = "us") String country
@@ -26,10 +34,3 @@ public class GnewsController {
 //        ParameterizedTypeReference<GNewsResponse> response = gnewsService.preparedForResponseByParametrized();
 //        return apiCaller.getData(url, response);
 //    }
-
-    @PostMapping("/postallgnews")
-    public List<GNewsArticle> postAllGNews() {
-        return gnewsService.getNewsArticles();
-    }
-
-}
