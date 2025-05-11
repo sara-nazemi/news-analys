@@ -40,7 +40,6 @@ public class GnewsServiceImplTest {
 
     @Test
     void testGetNewsArticles_shouldReturnArticlesFromApi() {
-        // Arrange
         String expectedUrl = "https://gnews.io/api/v4/search?country=us&apikey=fake-api-key&max=100&q=ai";
 
         GNewsArticle article1 = new GNewsArticle("Title 1", "Content 1", "bfjbdsjfb", "jbdsb",
@@ -54,10 +53,8 @@ public class GnewsServiceImplTest {
 
         when(apiCaller.getData(eq(expectedUrl), any())).thenReturn(mockResponse);
 
-        // Act
         List<GNewsArticle> articles = gnewsService.getNewsArticles();
 
-        // Assert
         assertNotNull(articles);
         assertEquals(2, articles.size());
         assertEquals("Title 1", articles.get(0).title());
