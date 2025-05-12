@@ -34,7 +34,6 @@ public class GnewsControllerTest {
 
         when(gnewsService.getNewsArticles()).thenReturn(mockArticles);
 
-        // Act & Assert
         mockMvc.perform(post("/gnews/postallgnews")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

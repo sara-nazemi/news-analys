@@ -19,6 +19,14 @@ public class NewsController {
         this.newsApiService = newsApiService;
     }
 
+    @PostMapping("/postallnewsapi")
+    public List<NewsApiArticle> postAllNewsApi() {
+        return newsApiService.getNewsApiArticles();
+    }
+}
+
+
+
 //    @GetMapping("/api")
 //    public NewsApiResponse getAllNews(
 //            @RequestParam(defaultValue = "us") String country
@@ -28,10 +36,4 @@ public class NewsController {
 //        ParameterizedTypeReference<NewsApiResponse> response = newsService.preparedForResponseByParametrized();
 //        return apiCaller.getData(url, response);
 //    }
-
-    @PostMapping("/postallnewsapi")
-    public List<NewsApiArticle> postAllNewsApi() {
-        return newsApiService.getNewsApiArticles();
-    }
-}
 
