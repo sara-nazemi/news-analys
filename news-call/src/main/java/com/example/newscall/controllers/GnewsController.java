@@ -26,11 +26,4 @@ public class GnewsController {
 
 }
 
-//    @GetMapping("/gnews")
-//    public GNewsResponse getAllGNews(
-//            @RequestParam(defaultValue = "us") String country
-//    ) {
-//        String url = gnewsService.createUrlGnews(country);
-//        ParameterizedTypeReference<GNewsResponse> response = gnewsService.preparedForResponseByParametrized();
-//        return apiCaller.getData(url, response);
-//    }
+
