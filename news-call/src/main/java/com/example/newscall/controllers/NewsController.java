@@ -27,13 +27,5 @@ public class NewsController {
 
 
 
-//    @GetMapping("/api")
-//    public NewsApiResponse getAllNews(
-//            @RequestParam(defaultValue = "us") String country
-//    ) {
-//
-//        String url = newsService.createUrlApi(country);
-//        ParameterizedTypeReference<NewsApiResponse> response = newsService.preparedForResponseByParametrized();
-//        return apiCaller.getData(url, response);
-//    }
+
 
