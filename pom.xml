@@ -18,6 +18,7 @@
     <modules>
         <module>news-call</module>
         <module>news-source</module>
+        <module>news-gateway</module>
     </modules>
 
     <name>news-analys</name>
